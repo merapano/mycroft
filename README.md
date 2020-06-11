@@ -81,4 +81,23 @@ Microft は、ファイルを
 
 ## Configuration
 
+コンフィギュレーションファイルは
+（デフォルトでは） microft.conf という名前です。
+
+次のような中身となっています
+
+    bib::~/biblio/
+    ps::~/Cloud/Gdrive/Data/ps/
+    wk::~/Cloud/Gdrive/Data/wk/
+    st::~/Cloud/Gdrive/Data/wk/
+
+最初のフィールドがファイルの種類を指します。
+bib だけ特別で、biblio ファイルがある場所（ディレクトリ名）を
+指定しています。
+microft.conf は
+そのディレクトリの中の
+
+bib 以外の種類（この例では ps、wk、st、dt）で
+指定されているのは、
+文書ファイル自身があるディレクトリ名となっています。
 
