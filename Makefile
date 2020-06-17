@@ -4,7 +4,7 @@ HTML=$(MD:.md=.html)
 	pandoc -w html -o $@ $<
 all: $(HTML) SMBC.html finance.html
 index.md: *.lst
-	microft *.lst > index.md
+	microft.pl *.lst > index.md
 
 
 
