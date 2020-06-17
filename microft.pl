@@ -8,22 +8,25 @@ my $head="<HTML><HEAD>\n";
 my $tail="</UL></BODY></HTML>\n";
 
 
-print $head;
 while(<>) {
     chomp;
     if (/^#conf/) { 
         ($conf, $category, $path, $title)= split(/:/, $_);
-        printf "<TITLE>$title</TITLE></HEAD><BODY><UL>";
+        #        printf "<TITLE>$title</TITLE></HEAD><BODY><UL>";
+        print "\n# $title\n\n";
         next;
     } 
     if (/^#|^$/) { next }
     ($fname,$expl,$date,$kywds) =
         split(/::/, $_);
-    print "<LI> <p> <a href=\"$path$fname\">$expl</a>
-	($date) \n";
+    #    print "<LI> <p> <a href=\"$path$fname\">$expl</a> 
+    #    ($date) \n";
+    print "\n- [$expl]($path$fname) ($date) ";
     @keywords = split (/,\s*/, $kywds);
     for ($i=0;$i<@keywords;$i++){
-        print " <a href=\"$keywords[$i].html\">$keywords[$i]</a>\n";
+        #        print " <a href=\"$keywords[$i].html\">
+        #        $keywords[$i]</a>\n";
+        print " [$keywords[$i]]($keywords[$i].html)";
         for ($k=0;$k<@tags;$k++) {
             if($tags[$k] eq $keywords[$i]) {
                 $eureka=1; }
@@ -33,10 +36,10 @@ while(<>) {
         
         print TMPFILE "$keywords[$i].md::[$expl]($path$fname) ($date)\n" ;
     }
-    print "</p></li>\n";
+#    print "</p></li>\n";
 }
 
-print $tail;
+# print $tail;
 
 close(TMPFILE);
 open(TMPFILE, "tmp.tmp") or die;
