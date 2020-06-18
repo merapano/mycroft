@@ -5,6 +5,7 @@ HTML=$(MD:.md=.html)
 all: $(HTML) SMBC.html finance.html
 index.md: *.lst
 	microft.pl *.lst > index.md
-
+cleanall:
+	rm TAG-*
 
 
