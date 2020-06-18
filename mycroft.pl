@@ -26,7 +26,7 @@ while(<>) {
     for ($i=0;$i<@keywords;$i++){
         #        print " <a href=\"$keywords[$i].html\">
         #        $keywords[$i]</a>\n";
-        print " [$keywords[$i]]($keywords[$i].html)";
+        print " [$keywords[$i]](TAG-$keywords[$i].html)";
         for ($k=0;$k<@tags;$k++) {
             if($tags[$k] eq $keywords[$i]) {
                 $eureka=1; }
@@ -47,10 +47,7 @@ open(TMPFILE, "tmp.tmp") or die;
 while (<TMPFILE>){
 
     ($tagname,$contents) = split(/::/, $_);
-    open(TAG,">> $tagname") or die "Cannot open $tagname";
+    open(TAG,">> TAG-$tagname") or die "Cannot open TAG-$tagname";
     print TAG "- $contents\n";
     close(TAG);
 }
-
-        
-    
