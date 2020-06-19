@@ -174,3 +174,39 @@ PDF ファイルが増えてきました。
 ローカルファイルである [[myindex]] に
 アクセスしてください。
 
+## 五番目のフィールド
+
+
+
+## Makefile や .gitignore の書き方
+
+たとえばこんな `Makefile` をつくればいいでしょう。
+
+     MD=$(wildcard *.md)
+     HTML=$(MD:.md=.html)
+     PS=$(wildcard ps*.lst)
+     FW=$(wildcard fw*.lst)
+     all: $(HTML) 
+     %.html : %.md
+         pandoc -s -c hatena.css -w html -o $@ $<
+     ps.html: ps.md
+     ps.md: $(PS)
+         mycroft.pl $(PS) > ps.md
+     fw.md: $(FW)
+         mycroft.pl $(FW) > fw.md
+     cleanall:
+         rm TAG-*.md TAG-*.html ps.md ps.html fw.md fw.html
+     output:
+         cp *.html ~/Output/Project/dt/mycroft/
+
+
+md や html は `git` で管理する必要はありません。
+ただし、SUP- ではじまるファイルと、
+（おそらく） `index.md` という名前のファイルは
+きちんと管理する必要があるでしょう。
+
+     *.md
+     !SUP-*.md
+     !index.md
+     *.html
+     
