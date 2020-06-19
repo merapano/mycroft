@@ -31,7 +31,7 @@ while(<>) {
     }
     if($suppl){
         ($basename, $ext)=split(/\./,$fname);
-        $sname = "$basename.md";
+        $sname = "SUP-$basename.md";
         unless( -e $sname ) {
             open(SFILE, "> $sname") or die "Cannot open $sname";
             print SFILE << "EOF";
