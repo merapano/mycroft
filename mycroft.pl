@@ -4,28 +4,21 @@ open(TMPFILE, "> tmp.tmp")
     or die "Cannot open tmp.tmp\n";
 
 my @tags = ();
-my $head="<HTML><HEAD>\n";
-my $tail="</UL></BODY></HTML>\n";
-
 
 while(<>) {
     chomp;
+    my $suppl="";
     if (/^#conf/) { 
         ($conf, $category, $path, $title)= split(/:/, $_);
-        #        printf "<TITLE>$title</TITLE></HEAD><BODY><UL>";
         print "\n# $title\n\n";
         next;
     } 
     if (/^#|^$/) { next }
-    ($fname,$expl,$date,$kywds) =
+    ($fname,$expl,$date,$kywds, $suppl) =
         split(/::/, $_);
-    #    print "<LI> <p> <a href=\"$path$fname\">$expl</a> 
-    #    ($date) \n";
     print "\n- [$expl]($path$fname) ($date) ";
     @keywords = split (/,\s*/, $kywds);
     for ($i=0;$i<@keywords;$i++){
-        #        print " <a href=\"$keywords[$i].html\">
-        #        $keywords[$i]</a>\n";
         print " [$keywords[$i]](TAG-$keywords[$i].html)";
         for ($k=0;$k<@tags;$k++) {
             if($tags[$k] eq $keywords[$i]) {
@@ -36,7 +29,21 @@ while(<>) {
         
         print TMPFILE "$keywords[$i].md::[$expl]($path$fname) ($date)\n" ;
     }
-#    print "</p></li>\n";
+    if($suppl){
+        ($basename, $ext)=split(/\./,$fname);
+        $sname = "$basename.md";
+        unless( -e $sname ) {
+            open(SFILE, "> $sname") or die "Cannot open $sname";
+            print SFILE << "EOF";
+# $expl
+
+[$expl]($path$fname)
+
+EOF
+        }
+        print "[HTML]($basename.html) ";        
+    }
+    print "\n";
 }
 
 # print $tail;
