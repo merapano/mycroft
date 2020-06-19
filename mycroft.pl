@@ -60,7 +60,12 @@ open(TMPFILE, "tmp.tmp") or die;
 while (<TMPFILE>){
 
     ($tagname,$contents) = split(/::/, $_);
-    open(TAG,"> TAG-$tagname") or die "Cannot open TAG-$tagname";
+    # if( -e "TAG-$tagname") {
+    #     open (TAG, ">> TAG-$tagname") or die "Cannot open TAG-$tagname";
+    # } else { 
+    #     open (TAG, "> TAG-$tagname") or die "Cannot open TAG-$tagname";
+    # }
+    open (TAG, ">> TAG-$tagname") or die "Cannot open TAG-$tagname";
     print TAG "- $contents\n";
     close(TAG);
 }
