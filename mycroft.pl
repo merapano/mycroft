@@ -41,7 +41,7 @@ while(<>) {
 
 EOF
         }
-        print "[HTML]($basename.html) ";        
+        print " [ [HTML] ](SUP-$basename.html) ";        
     }
     print "\n";
 }
