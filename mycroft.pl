@@ -16,7 +16,27 @@ while(<>) {
     if (/^#|^$/) { next }
     ($fname,$expl,$date,$kywds, $suppl) =
         split(/::/, $_);
-    print "\n- [$expl]($path$fname) ($date) ";
+    print "\n- [$expl]($path$fname) ";
+
+    if($suppl){
+        ($basename, $ext)=split(/\./,$fname);
+        $sname = "SUP-$basename.md";
+        unless( -e $sname ) {
+            open(SFILE, "> $sname") or die "Cannot open $sname";
+            print SFILE << "EOF";
+<!-- -*- coding: utf-8 -*- -->
+
+# $expl
+
+[Here]($path$fname)
+
+EOF
+        }
+        print " [ [ +++++ ] ](SUP-$basename.html) ";        
+    }
+
+    print "  ($date) ";
+    
     @keywords = split (/,\s*/, $kywds);
     for ($i=0;$i<@keywords;$i++){
         print " [$keywords[$i]](TAG-$keywords[$i].html)";
@@ -28,20 +48,6 @@ while(<>) {
         $eureka=0;
         
         print TMPFILE "$keywords[$i].md::[$expl]($path$fname) ($date)\n" ;
-    }
-    if($suppl){
-        ($basename, $ext)=split(/\./,$fname);
-        $sname = "SUP-$basename.md";
-        unless( -e $sname ) {
-            open(SFILE, "> $sname") or die "Cannot open $sname";
-            print SFILE << "EOF";
-# $expl
-
-[$expl]($path$fname)
-
-EOF
-        }
-        print " [ [HTML] ](SUP-$basename.html) ";        
     }
     print "\n";
 }
