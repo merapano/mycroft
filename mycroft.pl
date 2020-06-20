@@ -7,20 +7,20 @@ my @tags = ();
 
 while(<>) {
     chomp;
-    my $suppl="";
+    my $info="";
     if (/^#conf/) { 
         ($conf, $category, $path, $title)= split(/:/, $_);
         print "\n# $title\n\n";
         next;
     } 
     if (/^#|^$/) { next }
-    ($fname,$expl,$date,$kywds, $suppl) =
+    ($fname,$expl,$date,$kywds, $info) =
         split(/::/, $_);
     print "\n- [$expl]($path$fname) ";
 
-    if($suppl){
+    if($info){
         ($basename, $ext)=split(/\./,$fname);
-        $sname = "SUP-$basename.md";
+        $sname = "INF-$basename.md";
         unless( -e $sname ) {
             open(SFILE, "> $sname") or die "Cannot open $sname";
             print SFILE << "EOF";
@@ -32,7 +32,7 @@ while(<>) {
 
 EOF
         }
-        print " [ [ +++++ ] ](SUP-$basename.html) ";        
+        print " [ [ +++++ ] ](INF-$basename.html) ";        
     }
 
     print "  ($date) ";
