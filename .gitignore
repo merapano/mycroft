@@ -1,2 +1,6 @@
-*.html
 *.md
+!README.md
+!INF-*.md
+!index.md
+*.html
+
