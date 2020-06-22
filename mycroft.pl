@@ -64,11 +64,21 @@ EOF
     print "\n";
 }
 
-# print $tail;
+open(TAGFILE,">> $output.md" );
+print TAGFILE "\n# Tags of $title\n\n";
+
+@tags = sort {$a cmp $b} @tags;
+foreach $k (@tags) {
+    print TAGFILE "- [$k](TAG-$k.html)\n";
+}
+close(TAGFILE);
 
 close(TMPFILE);
 open(TMPFILE, "tmp.tmp") or die "Cannot open tmp.tmp";
 
+my @taglist;
+my $tagname;
+    
 while (<TMPFILE>){
 
     ($tagname,$contents) = split(/::/, $_);
