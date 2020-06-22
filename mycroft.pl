@@ -22,6 +22,7 @@ while(<>) {
     if (/^#conf/) { 
         ($conf, $category, $path, $title)= split(/:/, $_);
         print "\n# $title\n\n";
+        print "\n\n- [Tag Cloud]($output.html)\n\n";
         next;
     } 
     if (/^#|^$/) { next }
