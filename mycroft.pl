@@ -1,9 +1,20 @@
 #!/usr/bin/perl
 
+# use strict;
+use Getopt::Long;
+
 open(TMPFILE, "> tmp.tmp")
     or die "Cannot open tmp.tmp\n";
 
 my @tags = ();
+my $output;
+
+GetOptions('output=s' => \$output);
+if ( $output ) {
+    $output = $output . "-tagcloud" ;
+} else {
+    $output = "tagcloud";
+}
 
 while(<>) {
     chomp;
