@@ -177,30 +177,50 @@ PDF ファイルが増えてきました。
 ## 五番目のフィールド
 
 これまで四つのフィールドについてお話ししてきました。
+じつは五つめフィールドに隠し機能があります。
+行末に `::` をつけて、
+その後に `1` と書いてください。
+下のようになります。
 
-INF-* ファイルについて。
+     20200608064751_001.pdf::アマゾンの領収書（タオルその他）::\
+       2020-06-05::finance,receipt, amazon::1
+       
+そうすると、対象の pdf ファイルと
+一部が同じ名前で
+拡張子が `.md` のファイル
+（`INF-20200608064751_001.md` という名前のファイル）が出来上がります。
+あとは、
+この `md` ファイルに
+オリジナルのファイルの説明を書き込んでください。
 
 ## Makefile や .gitignore の書き方
 
 たとえばこんな `Makefile` をつくればいいでしょう。
 
-     MD=$(wildcard *.md)
+     .phony: all list output clean cleanall
+     MD=$(filter-out index.md INF-%.md, $(wildcard *.md))
      HTML=$(MD:.md=.html)
      PS=$(wildcard ps*.lst)
      FW=$(wildcard fw*.lst)
-     all: $(HTML) 
+     ST=$(wildcard st*.lst)
+     LIST=$(wildcard *.lst)
+     LISTMD=$(LIST:.lst=.md)
      %.html : %.md
          pandoc -s -c hatena.css -w html -o $@ $<
-     ps.html: ps.md
+     list: $(LISTMD)
      ps.md: $(PS)
          mycroft.pl $(PS) > ps.md
      fw.md: $(FW)
          mycroft.pl $(FW) > fw.md
-     cleanall:
-         rm TAG-*.md TAG-*.html ps.md ps.html fw.md fw.html
-     output:
+     st.md: $(ST)
+         mycroft.pl $(ST) > st.md
+     clean:
+         rm -f *~ *.BAK
+     cleanall: clean
+         rm -f TAG-* $(MD)
+     output: $(HTML)
          cp *.html ~/Output/Project/dt/mycroft/
-
+     all: list $(HTML) output
 
 md や html は `git` で管理する必要はありません。
 ただし、INF- ではじまるファイルと、
