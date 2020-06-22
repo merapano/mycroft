@@ -47,7 +47,7 @@ EOF
         push @tags, $keywords[$i] if !$eureka;
         $eureka=0;
         
-        print TMPFILE "$keywords[$i].md::[$expl]($path$fname) ($date)\n" ;
+        print TMPFILE "$keywords[$i]::[$expl]($path$fname) ($date)\n" ;
     }
     print "\n";
 }
@@ -55,7 +55,7 @@ EOF
 # print $tail;
 
 close(TMPFILE);
-open(TMPFILE, "tmp.tmp") or die;
+open(TMPFILE, "tmp.tmp") or die "Cannot open tmp.tmp";
 
 while (<TMPFILE>){
 
@@ -65,7 +65,7 @@ while (<TMPFILE>){
     # } else { 
     #     open (TAG, "> TAG-$tagname") or die "Cannot open TAG-$tagname";
     # }
-    open (TAG, ">> TAG-$tagname") or die "Cannot open TAG-$tagname";
+    open (TAG, ">> TAG-$tagname.md") or die "Cannot open TAG-$tagname.md";
     print TAG "- $contents\n";
     close(TAG);
 }
